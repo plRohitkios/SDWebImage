@@ -150,4 +150,7 @@ typedef NS_ENUM(NSUInteger, SDImageCacheConfigExpireType) {
  */
 @property (assign ,nonatomic, nonnull) Class diskCacheClass;
 
+
+@property (nonatomic, assign) BOOL showImageIndicator;
+
 @end

@@ -84,7 +84,7 @@ CATransition * SDTransitionFromAnimationOptions(SDWebImageAnimationOptions optio
 @implementation SDWebImageTransition (Conveniences)
 
 + (SDWebImageTransition *)fadeTransition {
-    return [self fadeTransitionWithDuration:0.5];
+    return [self fadeTransitionWithDuration:0.3];
 }
 
 + (SDWebImageTransition *)fadeTransitionWithDuration:(NSTimeInterval)duration {

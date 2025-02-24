@@ -202,6 +202,18 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
                 return;
             }
             
+#if SD_UIKIT || SD_MAC
+            if(!image) {
+                self.contentMode = UIViewContentModeScaleAspectFit;
+                if (options & SDWebImageNotToSetNoImageOnFailure) {}
+                else {
+                    image = [UIImage imageNamed:@"no_img@3x.png"];
+                    self.backgroundColor = [UIColor colorWithRed:(245.0/255.0) green:(246.0/255.0) blue:(248.0/255.0) alpha:1.0];
+                    [self sd_stopImageIndicator];
+                }
+            }
+#endif
+            
             UIImage *targetImage = nil;
             NSData *targetData = nil;
             if (image) {
@@ -449,7 +461,11 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
 
 #pragma mark - Image Transition
 - (SDWebImageTransition *)sd_imageTransition {
-    return objc_getAssociatedObject(self, @selector(sd_imageTransition));
+    SDWebImageTransition *transistion = objc_getAssociatedObject(self, @selector(sd_imageTransition));
+    if (!transistion) {
+        return SDWebImageTransition.fadeTransition;
+    }
+    return transistion;
 }
 
 - (void)setSd_imageTransition:(SDWebImageTransition *)sd_imageTransition {
@@ -458,6 +474,9 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
 
 #pragma mark - Indicator
 - (id<SDWebImageIndicator>)sd_imageIndicator {
+    if (![[SDImageCacheConfig defaultCacheConfig] showImageIndicator]) {
+        return nil;
+    }
     return objc_getAssociatedObject(self, @selector(sd_imageIndicator));
 }
 
@@ -465,7 +484,9 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
     // Remove the old indicator view
     id<SDWebImageIndicator> previousIndicator = self.sd_imageIndicator;
     [previousIndicator.indicatorView removeFromSuperview];
-    
+    if (![[SDImageCacheConfig defaultCacheConfig] showImageIndicator]) {
+        return;
+    }
     objc_setAssociatedObject(self, @selector(sd_imageIndicator), sd_imageIndicator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     // Add the new indicator view

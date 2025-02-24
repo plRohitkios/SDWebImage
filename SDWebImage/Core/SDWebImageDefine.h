@@ -227,6 +227,8 @@ typedef NS_OPTIONS(NSUInteger, SDWebImageOptions) {
      * @note If you have complicated transition animation, just use `SDWebImageManager` and do UI state management by yourself, do not use the top-level API (`sd_setImageWithURL:`)
      */
     SDWebImageWaitTransition = 1 << 25,
+    
+    SDWebImageNotToSetNoImageOnFailure = 1 << 26,
 };
 
 
