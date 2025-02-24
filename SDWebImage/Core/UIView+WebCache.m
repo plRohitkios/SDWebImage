@@ -209,7 +209,7 @@ const int64_t SDWebImageProgressUnitCountUnknown = 1LL;
                 else {
                     image = [UIImage imageNamed:@"no_img@3x.png"];
                     self.backgroundColor = [UIColor colorWithRed:(245.0/255.0) green:(246.0/255.0) blue:(248.0/255.0) alpha:1.0];
-                    [self sd_stopImageIndicator];
+                    [self sd_stopImageIndicatorWithQueue:queue];
                 }
             }
 #endif
